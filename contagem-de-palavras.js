@@ -505,10 +505,79 @@ Você deve implementar duas soluções:
 
 1) Um programa que calcule a distribuição de frequências
 das palavras UTILIZANDO SOMENTE VETORES (um vetor de tuplas, no caso);
+*/
 
+function calculaVetor() {
+  const vetor = [];
+  let contagem = 0;
+
+  console.time("vetor");
+
+  for (let index = 0; index < texto.length; index++) {
+    let palavra = texto[index];
+    let ehUnica = true;
+    for (let i = 0; i < vetor.length; i++) {
+      let p = vetor[i][0];
+      if (palavra === p) {
+        ehUnica = false;
+      }
+    }
+    if(ehUnica === true) {
+      vetor.push([palavra, 0]);
+      contagem++;
+    } 
+  }
+  for (let index = 0; index < texto.length; index++) {
+    let palavra = texto[index];
+    for (let i = 0; i < vetor.length; i++) {
+      let p = vetor[i][0];
+      if (palavra === p) {
+        vetor[i][1]++;
+      }
+    }
+  }
+
+  console.timeEnd("vetor");
+
+  console.log("Contagem de palavras: ", contagem);
+  return vetor;
+}
+console.log(calculaVetor());
+
+
+/*
 2) Um programa que calcule a distribuição de frequências
 das palavras utilizando HashTable;
+*/
 
+function calculaComHash() {
+  const hash = new HashTable(100);
+  let contagem = 0;
+
+  console.time("hash");
+
+  for (let index = 0; index < texto.length; index++) {
+    let palavra = texto[index];
+    if (hash.get(palavra) === null){
+      hash.set(palavra, 1);
+      contagem++;
+    } else {
+      let value = hash.get(palavra);
+      hash.set(palavra, value + 1);
+    }
+  }
+
+  console.timeEnd("hash");
+
+  console.log('Contagem de palavras: ', contagem);
+  return hash.toObject();
+}
+
+console.log(calculaComHash());
+
+
+
+/*
 Depois, utilize as funções console.time e console.timeEnd para
 mostrar a diferença de performance entre as duas soluções.
 
